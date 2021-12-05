@@ -1,4 +1,72 @@
+#-------------------------------------------------------------------------------------------------------
+#DAY 5
+d = {}
+with open('day5.txt','r') as file:
+    for line in file:
+        front,back = line.strip().split(' -> ')
+        x1,y1 = front.split(',')
+        x2,y2 = back.split(',')
+        if x1 == x2:
+            m,M = min(int(y1),int(y2)), max(int(y1),int(y2))
+            for i in range(m,M+1):
+                if x1+'|'+str(i) not in d.keys(): d[x1+'|'+str(i)] = 1
+                else: d[x1+'|'+str(i)] += 1
+        elif y1 == y2: 
+            m,M = min(int(x1),int(x2)), max(int(x1),int(x2))
+            for i in range(m,M+1):
+                if str(i)+'|'+y1 not in d.keys(): d[str(i)+'|'+y1] = 1
+                else: d[str(i)+'|'+y1] += 1
+        else: #part2
+            x1,x2,y1,y2 = int(x1),int(x2),int(y1),int(y2)
+            jump_x = -1*(x1>x2) + (x1<x2)
+            jump_y = -1*(y1>y2) + (y1<y2)
+            for i in range(abs(x1-x2)+1):
+                if str(x1)+'|'+str(y1) not in d.keys(): d[str(x1)+'|'+str(y1)] = 1
+                else: d[str(x1)+'|'+str(y1)] += 1
+                x1,y1 = x1+jump_x, y1+jump_y
 
+more_than_two = len([i for i in d.values() if i>1])
+print(more_than_two)  #6225 and 22116
+#-------------------------------------------------------------------------------------------------------
+#DAY4(failed part 2)
+with open('day4.txt','r') as file:
+    boards = []
+    seq = [int(i) for i in file.readline().strip().split(',')]
+    
+    x = file.readline()
+    new_board = []
+    while x:
+        if x == '\n':
+            copy = newboard
+            boards.append(copy)
+            newboard = []
+        else:
+            newboard.append([i for i in x.split()])
+        x = file.readline()
+def bingo_check(b):
+    hori = [x.count('X') == 5 for x in b].count(True) #checks all rows
+    vert = [[b[r][c] for r in range(5)].count('X') == 5 for c in range(5)].count(True)
+    return hori>=1 or vert>=1
+def x_replace(b,s):
+    for row in range(5):
+        for col in range(5):
+            if b[row][col] == s: b[row][col] = 'X'
+
+bingoed = False
+pos = 0
+while not bingoed:
+    curr = str(seq[pos])
+    for b in boards:
+        x_replace(b,curr)
+        if bingo_check(b):
+            got = b
+            lastnum = curr
+            bingoed = True
+    pos += 1
+
+summ = sum([sum([int(i) for i in x if i!='X']) for x in got])
+print(summ,lastnum)
+#44*947 = 41668
 #-------------------------------------------------------------------------------------------------------
 #DAY 3
 lst = []
