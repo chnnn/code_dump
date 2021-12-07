@@ -1,19 +1,35 @@
-
 #-------------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------------------------------
+#DAY7
+with open('day7.txt','r') as file:
+    lst = [int(i) for i in file.readline().strip().split(',')]
+    d = {m: lst.count(m) for m in set(lst)}
+
+curr_align = curr_sum = 0
+for align in range(min(lst),max(lst)):
+    s = sum([abs(x-align)*d[x] for x in d.keys()])
+    if s<curr_sum or curr_sum == 0: curr_sum, curr_align = s, align
+print(curr_align, curr_sum)   #317 331067
+
+#part 2 same as above except formula for s is different and one additional function
+def partsum(n):
+    return n*(n+1)//2
+s = sum([d[x]*partsum(abs(x-align)) for x in d.keys()]) 
+#458 92881128
 #-------------------------------------------------------------------------------------------------------
 #DAY6
 with open('day6.txt','r') as file:
     lst = [int(i) for i in file.readline().strip().split(',')]
     d = {n:lst.count(n) for n in range(9)}
 
-for i in range(256):
+for i in range(256): #80 instead of 256 for part 1
     due = d[0]
     for x in range(8):
         d[x] = d[x+1]
     d[8] = due
     d[6] += due
 
-print(sum(d.values()))
+print(sum(d.values())) #391671 and 1754000560399
 #-------------------------------------------------------------------------------------------------------
 #DAY 5
 d = {}
