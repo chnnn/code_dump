@@ -1,4 +1,38 @@
+#-------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------
+#DAY8
+summ = 0
+with open('day8.txt','r') as file:
+    for line in file:
+        front,back = line.strip().split('|')
+        back = [i for i in back.strip().split(' ') if len(i) in [2,3,4,7]]
+        summ +=len(back)
+print(summ) #476
+
+def sub(back,first): #part2
+    first = first.strip().split(' ')
+    one,four = [i for i in first if len(i) == 2][0], [i for i in first if len(i) == 4][0]
+    output = ''
+    for n in back:
+        l = len(n)
+        if l in [2,3,4,7]:
+            output+= str(1*(l==2) + 4*(l==4) + 7*(l==3) + 8*(l==7))
+        elif l == 5:
+            if len([i for i in one if i in n]) == 2: output+='3'
+            elif len([i for i in four if i in n]) ==3 : output +='5'
+            else: output += '2'
+        else:
+            if len([i for i in one if i in n]) != 2: output+='6'
+            elif len([i for i in four if i in n]) == 4 : output +='9'
+            else: output += '0'
+    return int(output)
+summ = 0
+with open('day8.txt','r') as file:
+    for line in file:
+        front,back = line.strip().split('|')
+        back = back.strip().split(' ')
+        summ+= sub(back,front)  
+print(summ) #1011823
 #-------------------------------------------------------------------------------------------------------
 #DAY7
 with open('day7.txt','r') as file:
