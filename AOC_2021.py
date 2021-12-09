@@ -1,4 +1,37 @@
 #-------------------------------------------------------------------------------------------
+#DAY9 (could not do part 2, part 1 referenced too)
+lst = [[int(y) for y in x] for x in open('day9.txt').read().strip().split('\n')]
+     
+risk_sum = 0
+for r in range(len(lst)):
+    for c in range(len(lst[0])):
+        if r>0 and lst[r][c] >= lst[r-1][c]: continue #up
+        if r<len(lst)-1 and lst[r][c] >= lst[r+1][c]: continue #not last row, down
+        if c>0 and lst[r][c] >= lst[r][c-1]:continue #not sidest left, left
+        if c<len(lst[0])-1 and lst[r][c] >= lst[r][c+1]: continue #not sidest right, right
+        risk_sum += int(lst[r][c])+1
+print(risk_sum) #575
+#part2 (not mine)
+from collections import Counter
+ll = [[int(y) for y in x] for x in open('day9.txt').read().strip().split('\n')]
+def basin(i,j):
+	downhill = None
+	for (di, dj) in [(i-1,j), (i+1,j), (i,j-1), (i,j+1)]:
+		if di in range(len(ll)) and dj in range(len(ll[0])):
+			if ll[i][j] > ll[di][dj]:
+				downhill = (di, dj)
+	if downhill is None:
+		return (i, j)
+	ret = basin(*downhill) #not entirely sure how this works
+	return ret
+basins = []
+for i in range(len(ll)):
+	for j in range(len(ll[0])):
+		if ll[i][j] != 9:
+			basins.append(basin(i, j))
+ret = 1
+for basin, common in Counter(basins).most_common(3): ret *= common
+print(ret) #1019700
 #-------------------------------------------------------------------------------------------------------
 #DAY8
 summ = 0
