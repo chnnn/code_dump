@@ -1,3 +1,32 @@
+#------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------
+#DAY10
+ll = [x for x in open('day10.txt').read().strip().split('\n')]
+flaw = {')': 3, ']': 57, '}':1197, '>': 25137}
+matcher = {')': '(', ']': '[', '}':'{', '>': '<'}
+score = {')': 1, ']': 2, '}':3, '>': 4}
+matcher2 = {v:k for k,v in matcher.items()}
+all_scores, summ = [],0
+
+for line in ll:
+    stack = []
+    for chara in line:
+        if chara in '({[<': stack.append(chara)
+        else: 
+            last = stack.pop()
+            if matcher[chara] != last: 
+                summ += flaw[chara] #part 1
+                break
+    else: #part 2
+        s = 0
+        while len(stack) !=0:
+            s *=5
+            curr = stack.pop()
+            s += score[matcher2[curr]]
+        all_scores.append(s)
+
+all_scores.sort() 
+print(summ, all_scores[len(all_scores)//2]) #394647 2380061249
 #-------------------------------------------------------------------------------------------
 #DAY9 (could not do part 2, part 1 referenced too)
 lst = [[int(y) for y in x] for x in open('day9.txt').read().strip().split('\n')]
