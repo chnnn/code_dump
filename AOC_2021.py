@@ -1,4 +1,40 @@
 #------------------------------------------------------------------------------------
+#DAY13
+#------------------------------------------------------------------------------------
+#DAY12
+#------------------------------------------------------------------------------------
+#DAY11
+ll = [[int(y) for y in x] for x in open('day11.txt').read().strip().split('\n')]
+flash = 0
+
+def any_ten(ll):
+    return sum(row.count(10) for row in ll)
+def all_zero(ll):
+    return sum(row.count(0) for row in ll) == 100
+def cont_flasher(i,j):
+    global flash
+    ind = [(i+1,j), (i-1,j), (i,j-1), (i,j+1), (i-1,j-1), (i-1,j+1),(i+1,j-1),(i+1,j+1)]
+    for (di,dj) in ind:
+        if di in range(10) and dj in range(10):
+            if ll[di][dj] !=0 : ll[di][dj] = ll[di][dj]+ 1
+            if ll[di][dj] > 9:
+                ll[di][dj] = 0
+                flash += 1
+                cont_flasher(di,dj)
+
+count = 0
+while not all_zero(ll): 
+    count+=1 
+    if count == 101: print(f'#part 1: {flash} flashes') #1615
+    ll = [[ele+1 for ele in row] for row in ll]
+    while any_ten(ll):
+        for i in range(10):
+            for j in range(10):
+                if ll[i][j] > 9:
+                    ll[i][j] = 0
+                    flash += 1
+                    cont_flasher(i,j)
+print(f'#part 2: all flash at step {count}') #249
 #------------------------------------------------------------------------------------
 #DAY10
 ll = [x for x in open('day10.txt').read().strip().split('\n')]
