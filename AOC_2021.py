@@ -2,6 +2,36 @@
 #DAY13
 #------------------------------------------------------------------------------------
 #DAY12
+ll = [ x.split('-') for x in open('day12.txt').read().strip().split('\n')]
+d = {}
+
+for ele in ll:
+    if ele[0] in d.keys() and ele[1] not in d[ele[0]]: d[ele[0]] += [ele[1]]
+    else: d[ele[0]] = [ele[1]]
+    if ele[1] in d.keys() and ele[0] not in d[ele[1]]: d[ele[1]] += [ele[0]]
+    else: d[ele[1]] = [ele[0]]
+
+def distinct_ways(l,d,init):
+    start, total= d['start'], 0
+    def helper(path,visited,smalls):
+        if path in visited:
+            if path == path.upper(): #upper case
+                nexts = d[path] 
+                return total + sum(helper(x,visited+[path],smalls) for x in nexts)
+            else: #lower case
+                if path != 'start' and not smalls: 
+                    nexts = d[path] 
+                    return total + sum(helper(x,visited+[path],True) for x in nexts)
+                else: return 0   
+        else:
+            if path == 'end': return 1
+            else:
+                nexts = d[path] 
+                return total + sum(helper(x,visited+[path],smalls) for x in nexts)
+            
+    return total + sum(helper(x,['start'],init) for x in start)
+
+print(f'part 1: {distinct_ways(ll,d,True)} \npart 2: {distinct_ways(ll,d,False)}') #4720 147848
 #------------------------------------------------------------------------------------
 #DAY11
 ll = [[int(y) for y in x] for x in open('day11.txt').read().strip().split('\n')]
