@@ -64,7 +64,22 @@ print(total) #2545
 
 #day 4 ------------------------------------------------------------------------------------------------------------------------------------
 
-
+with open('input.txt') as f:
+    part1 = part2 = 0
+    
+    for line in f:
+        elf1, elf2 = line.strip().split(',') 
+        elf1, elf2 = list(map(int, elf1.split('-'))), list(map(int, elf2.split('-')))
+        elf1, elf2 = list(range(elf1[0], elf1[1]+1)), list(range(elf2[0], elf2[1]+1))
+        l1, l2 = len(elf1), len(elf2)
+        tgt = len(set(elf1+elf2))
+        
+        if tgt == l2 or tgt == l1: part1+=1    
+        if tgt < l1+l2: part2 += 1   
+        
+    print(part1, part2) #450, 837
+    
+#day 5 ------------------------------------------------------------------------------------------------------------------------------------
 
 
 
