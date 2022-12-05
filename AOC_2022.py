@@ -81,5 +81,25 @@ with open('input.txt') as f:
     
 #day 5 ------------------------------------------------------------------------------------------------------------------------------------
 
+with open('input.txt') as f: l = f.readlines()
+    
+stack = [[] for i in range(9)]
+for line in l[:8]:
+    for i in range(9):
+        if line[1 + i*4] != ' ': stack[i].append(line[1 + i*4])
+        
+stack1, stack2 = [i[::-1] for i in stack], [i[::-1] for i in stack]  
+    
+for line in l[10:]:
+    movenum, rest = line.strip().split(' from ')
+    movenum = int(movenum[5:])
+    fro, to = map(int, rest.split(' to '))
+    
+    for i in range(movenum): stack1[to-1].append(stack1[fro-1].pop())   
+    stack2[to-1] += stack2[fro-1][-movenum:]
+    stack2[fro-1] = stack2[fro-1][:-movenum]
+    
+part1, part2 = ''.join(i[-1] for i in stack1), ''.join(i[-1] for i in stack2)
+print(part1, part2) #ZSQVCCJLL, QZFJRWHGS
 
-
+#day 6 ------------------------------------------------------------------------------------------------------------------------------------
