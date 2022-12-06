@@ -103,3 +103,20 @@ part1, part2 = ''.join(i[-1] for i in stack1), ''.join(i[-1] for i in stack2)
 print(part1, part2) #ZSQVCCJLL, QZFJRWHGS
 
 #day 6 ------------------------------------------------------------------------------------------------------------------------------------
+
+with open('input.txt') as f: l = f.readlines()[0].strip()
+    
+for i in range(len(l)-3):
+    curr = l[i:i+4]
+    if len(set([x for x in curr])) == 4: 
+        print(i+4) #1100
+        break
+
+for i in range(len(l)-13):
+    curr = l[i:i+14]
+    if len(set([x for x in curr])) == 14: 
+        print(i+14) #2421
+        break
+        
+#day 7 ------------------------------------------------------------------------------------------------------------------------------------       
+        
