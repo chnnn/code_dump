@@ -118,5 +118,37 @@ for i in range(len(l)-13):
         print(i+14) #2421
         break
         
-#day 7 ------------------------------------------------------------------------------------------------------------------------------------       
+#day 7 ------------------------------------------------------------------------------------------------------------------------------------
+with open('input.txt') as f: 
+    alldirs = {}
+    currpath = []
+    
+    for line in f: 
+        line = line.strip().split(' ')
+        if line[1] == 'cd':
+            if '..' in line[2]: currpath.pop()
+            else: currpath.append(line[2])
         
+        elif line[1] == 'ls': continue
+        
+        else:
+            try:
+                size = int(line[0])
+                for i in range(len(currpath)+1): 
+                    if '/'.join(currpath[:i]) in alldirs.keys():
+                        alldirs['/'.join(currpath[:i])] += size
+                    else: 
+                        alldirs['/'.join(currpath[:i])] = size
+            except: pass
+                
+total = 0
+for path, size in alldirs.items():
+    if size <= 100000:
+        total += size
+print(total) #1444896 
+        
+currspace = 30000000 - (70000000 - alldirs['/'])
+deletable = sorted([i for i in alldirs.values() if i >= currspace])
+print(deletable[0]) #404395
+        
+#day 8 ------------------------------------------------------------------------------------------------------------------------------------
