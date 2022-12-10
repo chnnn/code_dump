@@ -151,4 +151,26 @@ currspace = 30000000 - (70000000 - alldirs['/'])
 deletable = sorted([i for i in alldirs.values() if i >= currspace])
 print(deletable[0]) #404395
         
-#day 8 ------------------------------------------------------------------------------------------------------------------------------------
+#day 10 ------------------------------------------------------------------------------------------------------------------------------------
+with open('input.txt') as f:
+    cycle, register = 1, 1
+    strength = 0
+    board = [['.']*40 for i in range(6)]
+    
+    for line in f:
+        if 'noop' in line:
+            if cycle in [20,60,100,140,180,220]: strength += cycle*register
+            if (cycle-1)%40 in list(range(register-1,register+2)): 
+                board[cycle//40][(cycle-1)%40] = '#'
+            cycle += 1
+        else: 
+            if cycle in [20,60,100,140,180,220]: strength += cycle*register
+            elif (cycle+1) in [20,60,100,140,180,220]: strength += (cycle+1)*register
+            if (cycle-1)%40 in list(range(register-1,register+2)): 
+                board[cycle//40][(cycle-1)%40] = '#'
+            elif (cycle)%40 in list(range(register-1,register+2)): 
+                board[(cycle+1)//40][(cycle)%40] = '#'
+            cycle += 2
+            register += int(line.strip().split(' ')[-1])
+    print(strength)       
+    print('\n'.join([' '.join(i) for i in board]))
